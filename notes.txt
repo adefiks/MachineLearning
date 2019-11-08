@@ -1,0 +1,5 @@
+// some notes on course 
+
+ML Algorythms:
+    1. Polynomial regression
+    2. Clustering
