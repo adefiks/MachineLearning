@@ -14,6 +14,29 @@ private:
     vector<double> m_x_values, m_y_values;
     double m_numberOfElements;
     double coefficient_a, coefficient_b;
+    double m_previous_error;
+
+    bool isConverged(double a, double b)
+    {
+        double error = 0;
+        double threshold = 0.001;
+
+        for (size_t i = 0; i < m_numberOfElements; i++)
+        {
+            error += sqrt((coefficient_a * m_x_values[i] + coefficient_b) - m_y_values[i]);
+        }
+        error /= m_numberOfElements;
+        cout << "Error: " << error << endl;
+
+        if (abs(error) > m_previous_error - threshold && abs(error) < m_previous_error + threshold)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
 public:
     linearRegresion() {}
@@ -60,16 +83,18 @@ public:
 
 int main()
 {
-    cout << "Linear Regresion" << endl;
+    cout << "Linear Regression" << endl;
 
-    vector<double> x{2, 8, 2, 9, 7, 6, 9, 8, 6};
+    vector<double> x{1, 2, 3, 4, 5};
     vector<double> y{1, 2, 3, 4, 5};
+    // vector<double> y{2.8, 2.9, 7.6, 9, 8.6};
+    // vector<double> y{2, 4, 5, 4, 5};
 
     linearRegresion linearEntity(x, y);
 
     linearEntity.trainAlgorithm(1000, 3, -10);
 
-    cout << "Regresion: " << linearEntity.regress(3) << endl;
+    cout << "Regresion: " << linearEntity.regress(1) << endl;
 
     return 0;
 }
