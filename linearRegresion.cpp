@@ -16,31 +16,33 @@ private:
     double coefficient_a, coefficient_b;
     double m_previous_error;
 
-    bool isConverged(double a, double b)
+    bool isConverged()
     {
         double error = 0;
         double threshold = 0.001;
 
         for (size_t i = 0; i < m_numberOfElements; i++)
         {
-            error += sqrt((coefficient_a * m_x_values[i] + coefficient_b) - m_y_values[i]);
+            error += pow(((coefficient_a * m_x_values[i] + coefficient_b) - m_y_values[i]), 2);
         }
         error /= m_numberOfElements;
         cout << "Error: " << error << endl;
 
         if (abs(error) > m_previous_error - threshold && abs(error) < m_previous_error + threshold)
         {
+            m_previous_error = abs(error);
             return true;
         }
         else
         {
+            m_previous_error = abs(error);
             return false;
         }
     }
 
 public:
     linearRegresion() {}
-    linearRegresion(vector<double> vec_x, vector<double> vec_y) : m_x_values(vec_x), m_y_values(vec_y), m_numberOfElements(vec_y.size()) {}
+    linearRegresion(vector<double> vec_x, vector<double> vec_y) : m_x_values(vec_x), m_y_values(vec_y), m_numberOfElements(vec_y.size()), m_previous_error(numeric_limits<double>::max()) {}
     ~linearRegresion() {}
 
     void trainAlgorithm(int numberOfIter, double i_coefficient_a, double i_coefficient_b)
@@ -49,7 +51,7 @@ public:
         coefficient_a = i_coefficient_a;
         coefficient_b = i_coefficient_b;
 
-        while (iterations < numberOfIter)
+        while (!isConverged() && iterations < numberOfIter)
         {
             double step = 0.02;
             double a_grad = 0, b_grad = 0;
