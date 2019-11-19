@@ -53,7 +53,7 @@ public:
 
         while (!isConverged() && iterations < numberOfIter)
         {
-            double step = 0.02;
+            double step = 2 / double(iterations + 2);
             double a_grad = 0, b_grad = 0;
 
             // compute the gradient of error
@@ -88,15 +88,15 @@ int main()
     cout << "Linear Regression" << endl;
 
     vector<double> x{1, 2, 3, 4, 5};
-    vector<double> y{1, 2, 3, 4, 5};
-    // vector<double> y{2.8, 2.9, 7.6, 9, 8.6};
+    // vector<double> y{1, 2, 3, 4, 5};
+    vector<double> y{2.8, 2.9, 7.6, 9, 8.6};
     // vector<double> y{2, 4, 5, 4, 5};
 
     linearRegresion linearEntity(x, y);
 
     linearEntity.trainAlgorithm(1000, 3, -10);
 
-    cout << "Regresion: " << linearEntity.regress(1) << endl;
+    cout << "Regresion: " << linearEntity.regress(3) << endl;
 
     return 0;
 }
