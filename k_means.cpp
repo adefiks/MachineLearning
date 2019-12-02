@@ -20,16 +20,16 @@ private:
         {
             std::pair<double, double> mean(0, 0);
             int num_features_of_k = m_data[i].size();
-            for (auto const &it : m_data[i])
+            for (auto const &element : m_data[i])
             {
-                std::get<0>(mean) += std::get<0>(it);
-                std::get<1>(mean) += std::get<1>(it);
+                mean.first += element.first;
+                mean.second += element.second;
             }
-            std::get<0>(mean) /= num_features_of_k;
-            std::get<1>(mean) /= num_features_of_k;
+            mean.first /= num_features_of_k;
+            mean.second /= num_features_of_k;
             result = (m_means[i] == mean && result == true) ? true : false;
             m_means[i] = mean;
-            std::cout << "/ Cluster Centroid: " << i << " x: " << std::get<0>(mean) << " y: " << std::get<1>(mean);
+            std::cout << "/ Cluster Centroid: " << i << " x: " << mean.first << " y: " << mean.second;
         }
         std::cout << std::endl;
         return result;
@@ -54,8 +54,8 @@ private:
         std::valarray<double> distance(m_k);
         for (size_t i = 0; i < m_k; i++)
         {
-            double del_x = std::get<0>(point) - std::get<0>(m_means[i]);
-            double del_y = std::get<1>(point) - std::get<1>(m_means[i]);
+            double del_x = point.first - m_means[i].first;
+            double del_y = point.second - m_means[i].second;
             double dist = std::sqrt((del_x * del_x) + (del_y * del_y));
             distance[i] = dist;
         }
@@ -90,7 +90,7 @@ public:
         {
             for (auto const &element : m_data[i])
             {
-                std::cout << "[" << std::get<0>(element) << ", " << std::get<1>(element) << "]";
+                std::cout << "[" << element.first << ", " << element.second << "]";
             }
             std::cout << std::endl;
         }
