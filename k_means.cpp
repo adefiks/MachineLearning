@@ -79,7 +79,6 @@ public:
         while (i < num_iters && !computeMeans())
         {
             std::cout << "Running iteration: " << i << std::endl;
-            // computeMeans();
             assignLabels();
             i++;
         }
@@ -100,15 +99,25 @@ public:
 
 int main()
 {
-    std::vector<std::pair<double, double>> data = {{1.1, 1}, {1.4, 2}, {3.8, 7}, {5.0, 8}, {4.3, 6}, {8.0, 5}, {6, 8.5}, {3, 2.8}, {9, 6.0}, {9.1, 4}};
+    std::vector<std::pair<double, double>> data = {{1.1, 1}, {1.4, 2}, {3.8, 7}, {8, 6}, {5.0, 8}, {4.3, 6}, {8.0, 5}, {6, 8.5}, {3, 2.8}, {9, 6.0}, {9.1, 4}};
 
-    k_means km(2, data);
-    // std::valarray<std::pair<double, double>> init_means = {{1, 1}, {3, 4}, {8, 8}};
-    std::valarray<std::pair<double, double>> init_means = {{1, 1}, {3, 4}};
+    { // 3 clusters
+        k_means km(3, data);
+        std::valarray<std::pair<double, double>> init_means = {{1, 1}, {3, 4}, {8, 8}};
 
-    km.clusterData(init_means, 10);
+        km.clusterData(init_means, 12);
+        km.printCluster();
+    }
 
-    km.printCluster();
+    std::cout << std::endl;
+
+    { // 2 clusters
+        k_means km(2, data);
+        std::valarray<std::pair<double, double>> init_means = {{1, 1}, {3, 4}};
+
+        km.clusterData(init_means, 12);
+        km.printCluster();
+    }
 
     return 0;
 }
